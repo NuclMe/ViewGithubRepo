@@ -1,9 +1,10 @@
 import './App.css';
-import { Button } from 'antd';
+import { Header, Repos } from './components';
 function App() {
   return (
     <>
-      <Button>10</Button>
+      <Header />
+      <Repos />
     </>
   );
 }
