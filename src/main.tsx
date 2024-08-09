@@ -5,7 +5,7 @@ import './index.css';
 import { Provider } from 'react-redux';
 import { store } from './redux';
 import { ApiProvider } from '@reduxjs/toolkit/query/react';
-import { issuesApi } from './redux/issuesSlice.ts';
+import { issuesApi } from './redux/issuesApi.ts';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <ApiProvider api={issuesApi}>
@@ -14,4 +14,3 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </Provider>
   </ApiProvider>
 );
-
