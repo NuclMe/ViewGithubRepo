@@ -1,22 +1,31 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Flex } from 'antd';
+import styled from 'styled-components';
+
+const StyledCard = styled(Flex)`
+  width: 33.3%;
+`;
+
+const FlexContainer = styled(Flex)`
+  flex-wrap: wrap;
+`;
 
 export function Repos() {
   const issuesData = useSelector((state) => state.issuesData.data);
 
   return (
-    <Flex gap="middle">
+    <FlexContainer gap="middle">
       {issuesData && issuesData.length > 0 ? (
         issuesData.map((issue) => (
-          <Flex key={issue.id}>
+          <StyledCard key={issue.id}>
             <span>{issue.title}</span>
             <p>#{issue.number}</p>
-          </Flex>
+          </StyledCard>
         ))
       ) : (
         <p>No issues found</p>
       )}
-    </Flex>
+    </FlexContainer>
   );
 }
