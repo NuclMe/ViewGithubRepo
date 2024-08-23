@@ -1,9 +1,10 @@
 import './App.css';
-import { Header, Repos } from './components';
+import { Header, Repos, RepoNav } from './components';
 function App() {
   return (
     <>
       <Header />
+      <RepoNav />
       <Repos />
     </>
   );
