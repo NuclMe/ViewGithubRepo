@@ -1,5 +1,5 @@
 import React from 'react';
 
 export function RepoNav() {
-  return <div>test</div>;
+  return <div>tests</div>;
 }
