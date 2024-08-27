@@ -7,15 +7,17 @@ export const issuesApi = createApi({
     baseUrl: GITHUB_PATH,
   }),
   endpoints: (builder) => ({
-    getAllIssues: builder.query<{ userName: string; repoName: string }>({
-      query: (arg) => {
-        const { userName, repoName } = arg;
-        return {
-          url: `repos/${userName}/${repoName}/issues`,
-        };
-      },
+    getAllIssues: builder.query({
+      query: ({ userName, repoName }) => ({
+        url: `repos/${userName}/${repoName}/issues`,
+      }),
+    }),
+    getRepoInfo: builder.query({
+      query: ({ userName, repoName }) => ({
+        url: `repos/${userName}/${repoName}`,
+      }),
     }),
   }),
 });
 
-export const { useLazyGetAllIssuesQuery } = issuesApi;
+export const { useLazyGetAllIssuesQuery, useLazyGetRepoInfoQuery } = issuesApi;
