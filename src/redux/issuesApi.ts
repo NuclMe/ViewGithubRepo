@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { GITHUB_PATH } from '../api/apiConsts';
+
 export const issuesApi = createApi({
   reducerPath: 'issuesApi',
   baseQuery: fetchBaseQuery({
