@@ -1,3 +1,3 @@
 export { Header } from './Header';
 export { Repos } from './Repos';
-export { RepoNav } from './RepoNav';
+export { BreadCrumbs } from './BreadCrumbs';

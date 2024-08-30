@@ -1,10 +1,11 @@
 import './App.css';
-import { Header, Repos, RepoNav } from './components';
+import { Header, Repos, BreadCrumbs } from './components';
+
 function App() {
   return (
     <>
       <Header />
-      <RepoNav />
+      <BreadCrumbs />
       <Repos />
     </>
   );

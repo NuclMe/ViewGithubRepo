@@ -6,11 +6,14 @@ import { Provider } from 'react-redux';
 import { store } from './redux';
 import { ApiProvider } from '@reduxjs/toolkit/query/react';
 import { issuesApi } from './redux/issuesApi.ts';
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <ApiProvider api={issuesApi}>
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   </ApiProvider>
 );
