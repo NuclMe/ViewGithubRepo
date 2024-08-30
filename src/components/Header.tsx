@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import { Input, Button, Flex } from 'antd';
-import { useLazyGetAllIssuesQuery } from '../redux/issuesApi';
+import {
+  useLazyGetAllIssuesQuery,
+  useLazyGetRepoInfoQuery,
+} from '../redux/issuesApi';
 import { useDispatch } from 'react-redux';
-import { setIssuesData } from '../redux/issuesDataSlice';
+import { setIssuesData, setRepoInfo } from '../redux';
 
 export function Header() {
   const [links, setLinks] = useState('');
   const dispatch = useDispatch();
 
   const [triggerGetAllIssues] = useLazyGetAllIssuesQuery();
+  const [triggerGetRepoInfo] = useLazyGetRepoInfoQuery();
 
   const getIssues = async () => {
     const parts = links.split('/');
@@ -16,9 +20,13 @@ export function Header() {
     const userName = parts[parts.length - 2];
 
     const { data } = await triggerGetAllIssues({ userName, repoName });
+    const { data: repoInfo } = await triggerGetRepoInfo({ userName, repoName });
 
     if (data) {
       dispatch(setIssuesData(data));
+    }
+    if (repoInfo) {
+      dispatch(setRepoInfo(repoInfo));
     }
   };
 
