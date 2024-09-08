@@ -1,12 +1,12 @@
 import './App.css';
-import { Header, Repos, BreadCrumbs } from './components';
+import { Header, Columns, BreadCrumbs } from './components';
 
 function App() {
   return (
     <>
       <Header />
       <BreadCrumbs />
-      <Repos />
+      <Columns />
     </>
   );
 }

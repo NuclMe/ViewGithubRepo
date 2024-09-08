@@ -3,9 +3,10 @@ import { Input, Button, Flex } from 'antd';
 import {
   useLazyGetAllIssuesQuery,
   useLazyGetRepoInfoQuery,
+  useLazyGetOpenAssignedIssuesQuery,
 } from '../redux/issuesApi';
 import { useDispatch } from 'react-redux';
-import { setIssuesData, setRepoInfo } from '../redux';
+import { setIssuesData, setRepoInfo, setOpenAssignedIssues } from '../redux';
 
 export function Header() {
   const [links, setLinks] = useState('');
@@ -13,6 +14,7 @@ export function Header() {
 
   const [triggerGetAllIssues] = useLazyGetAllIssuesQuery();
   const [triggerGetRepoInfo] = useLazyGetRepoInfoQuery();
+  const [triggerGetOpenAssignedIssues] = useLazyGetOpenAssignedIssuesQuery();
 
   const getIssues = async () => {
     const parts = links.split('/');
@@ -21,12 +23,15 @@ export function Header() {
 
     const { data } = await triggerGetAllIssues({ userName, repoName });
     const { data: repoInfo } = await triggerGetRepoInfo({ userName, repoName });
+    const { data: openAssignedIssues } = await triggerGetOpenAssignedIssues({
+      userName,
+      repoName,
+    });
 
-    if (data) {
+    if ((data, repoInfo, openAssignedIssues)) {
       dispatch(setIssuesData(data));
-    }
-    if (repoInfo) {
       dispatch(setRepoInfo(repoInfo));
+      dispatch(setOpenAssignedIssues(openAssignedIssues));
     }
   };
 
