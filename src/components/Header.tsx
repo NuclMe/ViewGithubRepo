@@ -4,9 +4,15 @@ import {
   useLazyGetAllIssuesQuery,
   useLazyGetRepoInfoQuery,
   useLazyGetOpenAssignedIssuesQuery,
+  useLazyGetClosedIssuesQuery,
 } from '../redux/issuesApi';
 import { useDispatch } from 'react-redux';
-import { setIssuesData, setRepoInfo, setOpenAssignedIssues } from '../redux';
+import {
+  setIssuesData,
+  setRepoInfo,
+  setOpenAssignedIssues,
+  setClosedIssues,
+} from '../redux';
 
 export function Header() {
   const [links, setLinks] = useState('');
@@ -15,6 +21,7 @@ export function Header() {
   const [triggerGetAllIssues] = useLazyGetAllIssuesQuery();
   const [triggerGetRepoInfo] = useLazyGetRepoInfoQuery();
   const [triggerGetOpenAssignedIssues] = useLazyGetOpenAssignedIssuesQuery();
+  const [triggerGetClosedIssues] = useLazyGetClosedIssuesQuery();
 
   const getIssues = async () => {
     const parts = links.split('/');
@@ -27,11 +34,16 @@ export function Header() {
       userName,
       repoName,
     });
+    const { data: closedIssues } = await triggerGetClosedIssues({
+      userName,
+      repoName,
+    });
 
-    if ((data, repoInfo, openAssignedIssues)) {
+    if ((data, repoInfo, openAssignedIssues, closedIssues)) {
       dispatch(setIssuesData(data));
       dispatch(setRepoInfo(repoInfo));
       dispatch(setOpenAssignedIssues(openAssignedIssues));
+      dispatch(setClosedIssues(closedIssues));
     }
   };
 
