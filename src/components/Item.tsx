@@ -11,6 +11,13 @@ const StyledCard = styled(Flex)`
   padding: 15px;
   background: rgb(246, 245, 242);
   margin-bottom: 15px;
+  max-height: 150px;
+  height: 100%;
+`;
+const StyledItemTitle = styled(Link)`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 export function Item({ cardData }) {
@@ -21,7 +28,7 @@ export function Item({ cardData }) {
     <>
       {cardData.map((issue) => (
         <StyledCard vertical key={issue.id} gap="middle">
-          <Link href={issue.html_url}>{issue.title}</Link>
+          <StyledItemTitle href={issue.html_url}>{issue.title}</StyledItemTitle>
           <Typography.Text>
             #{issue.number} Opened {moment(issue.created_at).fromNow()}
           </Typography.Text>
