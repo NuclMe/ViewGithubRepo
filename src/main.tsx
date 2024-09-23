@@ -1,4 +1,4 @@
-import { React, StrictMode } from 'react';
+import { React } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { store } from './redux';
@@ -9,13 +9,11 @@ import { App } from './App.tsx';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <ApiProvider api={issuesApi}>
-      <Provider store={store}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </Provider>
-    </ApiProvider>
-  </StrictMode>
+  <ApiProvider api={issuesApi}>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  </ApiProvider>
 );
