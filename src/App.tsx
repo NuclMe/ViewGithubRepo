@@ -1,7 +1,7 @@
 import './App.css';
 import { Header, Columns, BreadCrumbs } from './components';
 
-function App() {
+export function App() {
   return (
     <>
       <Header />
@@ -10,5 +10,3 @@ function App() {
     </>
   );
 }
-
-export default App;
