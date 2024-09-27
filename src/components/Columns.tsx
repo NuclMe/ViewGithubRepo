@@ -20,26 +20,47 @@ export function Columns() {
   const assignedOpenData = useSelector((state) => state.assignedOpenData.data);
   const closedIssuesData = useSelector((state) => state.closedIssuesData.data);
 
-  // Initialize the state with the Redux store data
   const [todoList, setTodoList] = useState([]);
   const [inProgressList, setInProgressList] = useState([]);
   const [doneList, setDoneList] = useState([]);
 
-  // Load data from store into state when the component mounts
   useEffect(() => {
-    setTodoList(issuesData || []);
-    setInProgressList(assignedOpenData || []);
-    setDoneList(closedIssuesData || []);
+    const savedTodo = localStorage.getItem('todoList');
+    const savedInProgress = localStorage.getItem('inProgressList');
+    const savedDone = localStorage.getItem('doneList');
+
+    if (savedTodo) {
+      setTodoList(JSON.parse(savedTodo));
+    } else {
+      setTodoList(issuesData || []);
+    }
+
+    if (savedInProgress) {
+      setInProgressList(JSON.parse(savedInProgress));
+    } else {
+      setInProgressList(assignedOpenData || []);
+    }
+
+    if (savedDone) {
+      setDoneList(JSON.parse(savedDone));
+    } else {
+      setDoneList(closedIssuesData || []);
+    }
   }, [issuesData, assignedOpenData, closedIssuesData]);
 
-  // Handler for drag and drop
+  useEffect(() => {
+    if (todoList.length > 0)
+      localStorage.setItem('todoList', JSON.stringify(todoList));
+    if (inProgressList.length > 0)
+      localStorage.setItem('inProgressList', JSON.stringify(inProgressList));
+    if (doneList.length > 0)
+      localStorage.setItem('doneList', JSON.stringify(doneList));
+  }, [todoList, inProgressList, doneList]);
+
   const onDragEnd = ({ source, destination }: any) => {
-    // Make sure we have a valid destination
     if (!destination) return;
 
-    // Check if the item was moved within the same column or to a different column
     if (source.droppableId === destination.droppableId) {
-      // Move within the same list
       const newList = reorderList(
         source.droppableId,
         source.index,
@@ -47,7 +68,6 @@ export function Columns() {
       );
       updateListByDroppableId(source.droppableId, newList);
     } else {
-      // Move to a different list
       const result = moveBetweenLists(source, destination);
       updateListByDroppableId(source.droppableId, result[source.droppableId]);
       updateListByDroppableId(
@@ -57,23 +77,20 @@ export function Columns() {
     }
   };
 
-  // Reorder items within the same list
   const reorderList = (
     droppableId: string,
     startIndex: number,
     endIndex: number
   ) => {
-    const list = [...getListByDroppableId(droppableId)]; // Создаем копию массива
+    const list = [...getListByDroppableId(droppableId)];
     const [removed] = list.splice(startIndex, 1);
     list.splice(endIndex, 0, removed);
     return list;
   };
 
-  // Move items between lists
   const moveBetweenLists = (source: any, destination: any) => {
-    const sourceList = [...getListByDroppableId(source.droppableId)]; // Копия исходного списка
-    const destinationList = [...getListByDroppableId(destination.droppableId)]; // Копия целевого списка
-
+    const sourceList = [...getListByDroppableId(source.droppableId)];
+    const destinationList = [...getListByDroppableId(destination.droppableId)];
     const [removed] = sourceList.splice(source.index, 1);
     destinationList.splice(destination.index, 0, removed);
 
@@ -83,7 +100,6 @@ export function Columns() {
     };
   };
 
-  // Get list by droppable ID
   const getListByDroppableId = (droppableId: string) => {
     if (droppableId === 'col-1') return todoList;
     if (droppableId === 'col-2') return inProgressList;
@@ -91,7 +107,6 @@ export function Columns() {
     return [];
   };
 
-  // Update the appropriate list by droppable ID
   const updateListByDroppableId = (droppableId: string, newList: any[]) => {
     if (droppableId === 'col-1') setTodoList(newList);
     if (droppableId === 'col-2') setInProgressList(newList);

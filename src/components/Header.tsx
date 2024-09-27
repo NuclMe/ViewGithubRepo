@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Button, Flex } from 'antd';
 import {
   useLazyGetAllIssuesQuery,
@@ -18,11 +18,22 @@ export function Header() {
   const [links, setLinks] = useState('');
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    const savedLinks = localStorage.getItem('repoLink');
+    if (savedLinks) {
+      setLinks(savedLinks);
+    }
+  }, []);
+
   const [triggerGetAllIssues] = useLazyGetAllIssuesQuery();
   const [triggerGetRepoInfo] = useLazyGetRepoInfoQuery();
   const [triggerGetOpenAssignedIssues] = useLazyGetOpenAssignedIssuesQuery();
   const [triggerGetClosedIssues] = useLazyGetClosedIssuesQuery();
 
+  const handleInputChange = (e) => {
+    setLinks(e.target.value);
+    localStorage.setItem('repoLink', e.target.value);
+  };
   const getIssues = async () => {
     const parts = links.split('/');
     const repoName = parts[parts.length - 1];
@@ -53,9 +64,7 @@ export function Header() {
         <Input
           placeholder="Enter repo URL"
           value={links}
-          onChange={(event) => {
-            setLinks(event.target.value);
-          }}
+          onChange={handleInputChange}
         />
         <Button type="primary" onClick={getIssues}>
           Load issues

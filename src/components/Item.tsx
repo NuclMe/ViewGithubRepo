@@ -31,9 +31,9 @@ export function Item({ cardData }) {
     <>
       {cardData.map((issue, index) => (
         <Draggable
-          key={issue.id.toString()} // Преобразуем id в строку
-          draggableId={issue.id.toString()} // Преобразуем id в строку
-          index={index} // Индекс для правильного порядка
+          key={issue.id.toString()}
+          draggableId={issue.id.toString()}
+          index={index}
         >
           {(provided) => (
             <StyledCard
