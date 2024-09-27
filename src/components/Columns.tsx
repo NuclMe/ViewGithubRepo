@@ -1,19 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Typography, Col, Row, Flex } from 'antd';
-import { Item } from './Item';
-import styled from 'styled-components';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-
-const StyledColumnInner = styled(Flex)`
-  background: #f0f2f5;
-  padding: 20px;
-  border: 1px solid #cc8e1e;
-`;
-
-const StyledTitle = styled(Typography.Title)`
-  text-align: center;
-`;
+import { Row } from 'antd';
+import { Column } from './Column';
+import { DragDropContext } from 'react-beautiful-dnd';
 
 export function Columns() {
   const issuesData = useSelector((state) => state.issuesData.data);
@@ -120,68 +109,13 @@ export function Columns() {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Row styled={{ marginTop: '20px' }} gutter={[20, 20]}>
-        <Col xs={24} sm={12} md={8}>
-          <StyledTitle level={4}>To Do</StyledTitle>
-          <StyledColumnInner vertical="true">
-            <Droppable droppableId="col-1">
-              {(provided) => (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <Item cardData={todoList} />
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </StyledColumnInner>
-        </Col>
-
-        <Col xs={24} sm={12} md={8}>
-          <StyledTitle level={4}>In Progress</StyledTitle>
-          <StyledColumnInner vertical="true">
-            <Droppable droppableId="col-2">
-              {(provided) => (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <Item cardData={inProgressList} />
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </StyledColumnInner>
-        </Col>
-
-        <Col xs={24} sm={12} md={8}>
-          <StyledTitle level={4}>Done</StyledTitle>
-          <StyledColumnInner vertical="true">
-            <Droppable droppableId="col-3">
-              {(provided) => (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <Item cardData={doneList} />
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </StyledColumnInner>
-        </Col>
+        <Column name={'To Do'} cardData={todoList} droppableId="col-1" />
+        <Column
+          name={'In Progress'}
+          cardData={inProgressList}
+          droppableId="col-2"
+        />
+        <Column name={'Done'} cardData={doneList} droppableId="col-3" />
       </Row>
     </DragDropContext>
   );
