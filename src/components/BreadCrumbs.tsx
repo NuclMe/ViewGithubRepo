@@ -9,7 +9,7 @@ const NavContainer = styled(Flex)`
   margin-top: 10px;
 `;
 
-export function BreadCrumbs() {
+export const BreadCrumbs: React.FC = () => {
   const repoInfo = useSelector((state) => state.repoData.data);
 
   if (!repoInfo) {
@@ -31,4 +31,4 @@ export function BreadCrumbs() {
       </Flex>
     </NavContainer>
   );
-}
+};

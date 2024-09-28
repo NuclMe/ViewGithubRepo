@@ -4,7 +4,7 @@ import { Row } from 'antd';
 import { Column } from './Column';
 import { DragDropContext } from 'react-beautiful-dnd';
 
-export function Columns() {
+export const Columns: React.FC = () => {
   const issuesData = useSelector((state) => state.issuesData.data);
   const assignedOpenData = useSelector((state) => state.assignedOpenData.data);
   const closedIssuesData = useSelector((state) => state.closedIssuesData.data);
@@ -96,7 +96,7 @@ export function Columns() {
     return [];
   };
 
-  const updateListByDroppableId = (droppableId: string, newList: any[]) => {
+  const updateListByDroppableId = (droppableId: string, newList: Array) => {
     if (droppableId === 'col-1') setTodoList(newList);
     if (droppableId === 'col-2') setInProgressList(newList);
     if (droppableId === 'col-3') setDoneList(newList);
@@ -108,15 +108,15 @@ export function Columns() {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Row styled={{ marginTop: '20px' }} gutter={[20, 20]}>
-        <Column name={'To Do'} cardData={todoList} droppableId="col-1" />
+      <Row style={{ marginTop: '20px' }} gutter={[20, 20]}>
+        <Column name="To Do" cardData={todoList} droppableId="col-1" />
         <Column
-          name={'In Progress'}
+          name="In Progress"
           cardData={inProgressList}
           droppableId="col-2"
         />
-        <Column name={'Done'} cardData={doneList} droppableId="col-3" />
+        <Column name="Done" cardData={doneList} droppableId="col-3" />
       </Row>
     </DragDropContext>
   );
-}
+};
