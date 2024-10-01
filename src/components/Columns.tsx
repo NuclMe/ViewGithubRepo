@@ -2,39 +2,36 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Row } from 'antd';
 import { Column } from './Column';
-import { DragDropContext } from 'react-beautiful-dnd';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { CardItemTypes } from '../types';
+import { RootState } from '../redux/store';
 
 export const Columns: React.FC = () => {
-  const issuesData = useSelector((state) => state.issuesData.data);
-  const assignedOpenData = useSelector((state) => state.assignedOpenData.data);
-  const closedIssuesData = useSelector((state) => state.closedIssuesData.data);
+  const issuesData = useSelector((state: RootState) => state.issuesData.data);
+  const assignedOpenData = useSelector(
+    (state: RootState) => state.assignedOpenData.data
+  );
+  const closedIssuesData = useSelector(
+    (state: RootState) => state.closedIssuesData.data
+  );
 
-  const [todoList, setTodoList] = useState([]);
-  const [inProgressList, setInProgressList] = useState([]);
-  const [doneList, setDoneList] = useState([]);
+  const [todoList, setTodoList] = useState<CardItemTypes[]>([]);
+  const [inProgressList, setInProgressList] = useState<CardItemTypes[]>([]);
+  const [doneList, setDoneList] = useState<CardItemTypes[]>([]);
 
   useEffect(() => {
     const savedTodo = localStorage.getItem('todoList');
     const savedInProgress = localStorage.getItem('inProgressList');
     const savedDone = localStorage.getItem('doneList');
 
-    if (savedTodo) {
-      setTodoList(JSON.parse(savedTodo));
-    } else {
-      setTodoList(issuesData || []);
-    }
+    if (savedTodo) setTodoList(JSON.parse(savedTodo));
+    else setTodoList(issuesData || []);
 
-    if (savedInProgress) {
-      setInProgressList(JSON.parse(savedInProgress));
-    } else {
-      setInProgressList(assignedOpenData || []);
-    }
+    if (savedInProgress) setInProgressList(JSON.parse(savedInProgress));
+    else setInProgressList(assignedOpenData || []);
 
-    if (savedDone) {
-      setDoneList(JSON.parse(savedDone));
-    } else {
-      setDoneList(closedIssuesData || []);
-    }
+    if (savedDone) setDoneList(JSON.parse(savedDone));
+    else setDoneList(closedIssuesData || []);
   }, [issuesData, assignedOpenData, closedIssuesData]);
 
   useEffect(() => {
@@ -46,7 +43,7 @@ export const Columns: React.FC = () => {
       localStorage.setItem('doneList', JSON.stringify(doneList));
   }, [todoList, inProgressList, doneList]);
 
-  const onDragEnd = ({ source, destination }: any) => {
+  const onDragEnd = ({ source, destination }: DropResult) => {
     if (!destination) return;
 
     if (source.droppableId === destination.droppableId) {
@@ -70,14 +67,17 @@ export const Columns: React.FC = () => {
     droppableId: string,
     startIndex: number,
     endIndex: number
-  ) => {
+  ): CardItemTypes[] => {
     const list = [...getListByDroppableId(droppableId)];
     const [removed] = list.splice(startIndex, 1);
     list.splice(endIndex, 0, removed);
     return list;
   };
 
-  const moveBetweenLists = (source: any, destination: any) => {
+  const moveBetweenLists = (
+    source: { droppableId: string; index: number },
+    destination: { droppableId: string; index: number }
+  ) => {
     const sourceList = [...getListByDroppableId(source.droppableId)];
     const destinationList = [...getListByDroppableId(destination.droppableId)];
     const [removed] = sourceList.splice(source.index, 1);
@@ -89,14 +89,17 @@ export const Columns: React.FC = () => {
     };
   };
 
-  const getListByDroppableId = (droppableId: string) => {
+  const getListByDroppableId = (droppableId: string): CardItemTypes[] => {
     if (droppableId === 'col-1') return todoList;
     if (droppableId === 'col-2') return inProgressList;
     if (droppableId === 'col-3') return doneList;
     return [];
   };
 
-  const updateListByDroppableId = (droppableId: string, newList: Array) => {
+  const updateListByDroppableId = (
+    droppableId: string,
+    newList: CardItemTypes[]
+  ) => {
     if (droppableId === 'col-1') setTodoList(newList);
     if (droppableId === 'col-2') setInProgressList(newList);
     if (droppableId === 'col-3') setDoneList(newList);

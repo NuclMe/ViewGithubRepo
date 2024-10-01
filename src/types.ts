@@ -1,6 +1,6 @@
 interface ColumnPropsTypes {
   name: string;
-  cardData: Array<any>; // Adjust type based on what cardData contains
+  cardData: Array<CardItemTypes>;
   droppableId: string;
 }
 
@@ -19,7 +19,17 @@ interface CardItemTypes {
 }
 
 interface ItemProps {
-  cardData: CardItemTypes[]; // cardData is an array of CardItemTypes
+  cardData: CardItemTypes[];
 }
 
-export type { ColumnPropsTypes, CardItemTypes, ItemProps };
+interface RepoData {
+  stargazers_count: number;
+  organization: {
+    html_url: string;
+    login: string;
+  };
+  html_url: string;
+  name: string;
+}
+
+export type { ColumnPropsTypes, CardItemTypes, ItemProps, RepoData };

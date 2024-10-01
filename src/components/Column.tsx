@@ -24,7 +24,7 @@ export const Column: React.FC<ColumnPropsTypes> = ({
     <>
       <Col xs={24} sm={12} md={8}>
         <StyledTitle level={4}>{name}</StyledTitle>
-        <StyledColumnInner vertical="true">
+        <StyledColumnInner vertical>
           <Droppable droppableId={droppableId}>
             {(provided) => (
               <div
