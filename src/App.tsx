@@ -1,7 +1,7 @@
 import './App.css';
 import { Header, Columns, BreadCrumbs } from './components';
 
-export function App() {
+export const App: React.FC = () => {
   return (
     <>
       <Header />
@@ -9,4 +9,4 @@ export function App() {
       <Columns />
     </>
   );
-}
+};

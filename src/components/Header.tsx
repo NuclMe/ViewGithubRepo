@@ -14,7 +14,7 @@ import {
   setClosedIssues,
 } from '../redux';
 
-export function Header() {
+export const Header: React.FC = () => {
   const [links, setLinks] = useState('');
   const dispatch = useDispatch();
 
@@ -30,7 +30,7 @@ export function Header() {
   const [triggerGetOpenAssignedIssues] = useLazyGetOpenAssignedIssuesQuery();
   const [triggerGetClosedIssues] = useLazyGetClosedIssuesQuery();
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLinks(e.target.value);
     localStorage.setItem('repoLink', e.target.value);
   };
@@ -50,7 +50,7 @@ export function Header() {
       repoName,
     });
 
-    if ((data, repoInfo, openAssignedIssues, closedIssues)) {
+    if (data && repoInfo && openAssignedIssues && closedIssues) {
       dispatch(setIssuesData(data));
       dispatch(setRepoInfo(repoInfo));
       dispatch(setOpenAssignedIssues(openAssignedIssues));
@@ -72,4 +72,4 @@ export function Header() {
       </Flex>
     </header>
   );
-}
+};

@@ -16,3 +16,5 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(issuesApi.middleware),
 });
+
+export type RootState = ReturnType<typeof store.getState>;

@@ -3,7 +3,7 @@ import { Flex, Image, Typography, Divider } from 'antd';
 import styled from 'styled-components';
 import moment from 'moment';
 import { Draggable } from 'react-beautiful-dnd';
-
+import { CardItemTypes, ItemProps } from '../types';
 const { Link } = Typography;
 
 const StyledCard = styled(Flex)`
@@ -22,14 +22,14 @@ const StyledItemTitle = styled(Link)`
   overflow: hidden;
 `;
 
-export function Item({ cardData }) {
+export const Item: React.FC<ItemProps> = ({ cardData }) => {
   if (!cardData) {
     return null;
   }
 
   return (
     <>
-      {cardData.map((issue, index) => (
+      {cardData.map((issue: CardItemTypes, index: number) => (
         <Draggable
           key={issue.id.toString()}
           draggableId={issue.id.toString()}
@@ -68,4 +68,4 @@ export function Item({ cardData }) {
       ))}
     </>
   );
-}
+};

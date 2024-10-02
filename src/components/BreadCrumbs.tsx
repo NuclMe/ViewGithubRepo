@@ -1,16 +1,21 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, TypedUseSelectorHook } from 'react-redux';
+import { RootState } from '../redux/store';
 import { Flex } from 'antd';
 import { StarFilled, RightOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { RepoData } from '../types';
 
 const NavContainer = styled(Flex)`
   margin-top: 10px;
 `;
 
-export function BreadCrumbs() {
-  const repoInfo = useSelector((state) => state.repoData.data);
+export const BreadCrumbs: React.FC = () => {
+  const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
+  const repoInfo: RepoData | any = useTypedSelector(
+    (state) => state.repoData.data
+  );
 
   if (!repoInfo) {
     return null;
@@ -31,4 +36,4 @@ export function BreadCrumbs() {
       </Flex>
     </NavContainer>
   );
-}
+};
